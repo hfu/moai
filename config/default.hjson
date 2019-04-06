@@ -1,0 +1,9 @@
+{
+  farmsPath: ./config/farms.js
+  a320Path: /Volumes/easter-egg/320
+  cs100Path: /Volumes/easter-egg/cs100
+  certPath: /Users/hfu/mkcert-pems/127.0.0.1.pem 
+  keyPath: /Users/hfu/mkcert-pems/127.0.0.1-key.pem
+  port: 443
+  htdocsPath: htdocs
+}
