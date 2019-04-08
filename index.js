@@ -4,6 +4,7 @@ const express = require('express')
 const spdy = require('spdy')
 const cors = require('cors')
 const MBTiles = require('@mapbox/mbtiles')
+const mbgl = require('@mapbox/mapbox-gl-native')
 const mapnik = require('mapnik')
 
 const farms = require(config.get('farmsPath'))
@@ -40,20 +41,19 @@ const getConcatenatedTile = (z, x, y) => {
   return new Promise(async (resolve, reject) => {
     let contents = []
     let keys = []
-    console.log(JSON.stringify(mbtilesPool))
     for (let key in farms) {
       const mbtilesPath = farms[key].getMbtilesPath(z, x, y)
       let mbtiles = mbtilesPool[mbtilesPath]
       if (!mbtiles) {
-        console.log(`newly opening ${mbtilesPath} for ${z}/${x}/${y}`)
         try {
           mbtiles = mbtilesPool[mbtilesPath] = openMbtiles(mbtilesPath)
         } catch (e) {
+          console.error(e)
           continue
         }
       }
       try {
-        console.log(`${z}/${x}/${y} from ${mbtilesPath}`)
+        // console.log(`${z}/${x}/${y} from ${mbtilesPath}`)
         let t = new mapnik.VectorTile(z, x, y)
         t.addDataSync(
           await getEachTile(await mbtiles, z, x, y),
@@ -61,23 +61,15 @@ const getConcatenatedTile = (z, x, y) => {
         contents.push(t)
         keys.push(key)
       } catch (e) {
+        // This is the case where tile does not exist.
         // console.error(e)
         continue
       }
     }
-    let vectorTile = new mapnik.VectorTile(z, x, y)
-    try {
-      vectorTile.compositeSync(contents)
-    console.log(`merging ${contents.length}`)
-    console.log(contents.map(v => v.length))
-    console.log(keys)
-    console.log(vectorTile)
-    console.log(vectorTile.toGeoJSONSync('__all__'))
-    } catch (e) {
-      console.log(e)
-    }
+
     if (keys.length > 0) {
-      console.log(`after concat ${keys.length}`)
+      let vectorTile = new mapnik.VectorTile(z, x, y)
+      vectorTile.compositeSync(contents)
       resolve(vectorTile.getData({ compression: 'gzip' }))
     } else {
       reject(new Error(`${z}/${x}/${y} not found`))

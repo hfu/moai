@@ -4,7 +4,9 @@
   "description": "A vector tile server with twin mbtiles module farms; a part of the easter-egg product",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "serve": "pm2 start index.js -i 4 --name moai",
+    "stop": "pm2 stop moai"
   },
   "repository": {
     "type": "git",
