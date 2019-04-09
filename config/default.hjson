@@ -6,4 +6,8 @@
   keyPath: /Users/hfu/mkcert-pems/127.0.0.1-key.pem
   port: 443
   htdocsPath: htdocs
+  stylePath: ../macrostyle/style.json
+  spriteJsonPath: ../unite-sprite/sprite.json
+  spritePngPath: ../unite-sprite/sprite.png
+  fontsDir: ../fonts
 }

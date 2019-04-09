@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "ava",
-    "serve": "pm2 start index.js -i 4 --name moai",
+    "serve": "pm2 start index.js -i 4 --name moai --interpreter=/Users/hfu/.nodenv/versions/8.15.1/bin/node",
     "stop": "pm2 stop moai"
   },
   "repository": {
@@ -20,13 +20,18 @@
   },
   "homepage": "https://github.com/hfu/moai#readme",
   "dependencies": {
+    "@mapbox/mapbox-gl-native": "^4.1.0",
     "@mapbox/mbtiles": "^0.10.0",
+    "better-queue": "^3.8.10",
     "config": "^3.0.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "generic-pool": "^3.7.1",
     "hjson": "^3.1.2",
-    "mapnik": "^4.2.1",
-    "spdy": "^4.0.0"
+    "mapnik": "github:mapnik/node-mapnik#v3.0.x",
+    "sharp": "^0.22.0",
+    "spdy": "^4.0.0",
+    "vt-pbf": "^3.1.1"
   },
   "devDependencies": {
     "ava": "^1.4.1"
