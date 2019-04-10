@@ -244,10 +244,7 @@ app.get('/zxy/:z/:x/:y.png', (req, res) => {
       res.send(err)
     } else {
       res.set('content-type', 'image/png')
-      image.png().toBuffer()
-        .then((result) => {
-          res.send(result)
-        })
+      image.png().toBuffer().then(result => { res.send(result) })
     }
   })
 })
